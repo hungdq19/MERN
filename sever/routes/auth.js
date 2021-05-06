@@ -32,12 +32,48 @@ route.post("/register", async (req, res) => {
     const newUser = new User({ username, password: hashPasswords });
     await newUser.save();
     // Create Token with userId: newUser._id
-    const acessTokent = jwt.sign({ userId: newUser._id }, "HungDQ19");git
-    res.json({ success: true, message: "register succesfully", acessTokent });
+    const acessTokent = jwt.sign({ userId: newUser._id }, "HungDQ19");
+    res.json({
+      success: true,
+      message: "Ban Dang ki tai khoan thanh cong",
+      acessTokent,
+    });
   } catch (error) {
-      res
-        .status(500)
-        .json({ success: false, message: "sever bi loi roi ......." });
+    res
+      .status(500)
+      .json({ success: false, message: "sever bi loi roi ......." });
+  }
+});
+// @Route: POST : api/auth/login
+// @desc: login user
+//access: public
+route.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password)
+    return res.status(400).json({
+      success: false,
+      message: "Ten Dang nhap hoac mat khau cua ban chua co",
+    });
+  try {
+    const user = await User.findOne({ username });
+    if (!user)
+      return res.status(400).json({
+        success: false,
+        message: "Ten dang nhap or mat khau ban nhap dang bi sai",
+      });
+
+    const checkPassword = await argon2.verify(user.password, password);
+    if (!checkPassword)
+      return res.status(400).json({
+        success: false,
+        message: "Ten dang nhap or mat khau ban nhap dang bi sai",
+      });
+    const acessToken = jwt.sign({ userId: user._id }, "HungDQ19");
+    res
+      .status(200)
+      .json({ success: true, message: "Dang nhap thanh cong", acessToken });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Sever loi :(((((....." });
   }
 });
 

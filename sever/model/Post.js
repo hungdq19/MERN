@@ -7,7 +7,6 @@ const PostSchema = new Schema({
   },
   descriptions: {
     type: String,
-    required: true,
   },
   url: {
     type: String,
@@ -21,4 +20,4 @@ const PostSchema = new Schema({
     ref: "users",
   },
 });
-module.exports = mongoose.model("storys", PostSchema);
+module.exports = mongoose.model("posts", PostSchema);
