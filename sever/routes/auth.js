@@ -5,8 +5,23 @@ const route = express.Router();
 const argon2 = require("argon2");
 //import json web token
 const jwt = require("jsonwebtoken");
+const verifyToken = require("../middleware/checkToken");
 //Import User Model
 const User = require("../model/User.js");
+// @Route: Get : api/auth/
+// @desc: check xem co token hay khong
+//access: public
+route.get("/", verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+    if (!user)
+      return res.status(404).json({ success: false, message: "Do Not User" });
+    res.json({ success: true, user });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // @Route: POST : api/auth/register
 // @desc: Register new user..
 //access: public

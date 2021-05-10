@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 // import Route Authentication
 const authRoute = require("./routes/auth");
+const cors = require("cors");
 //import router Posts in App
 const postRoute = require("./routes/post");
 const connectDB = async () => {
@@ -25,6 +26,7 @@ const connectDB = async () => {
 connectDB();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
 app.get("/", (req, res) => res.send("Hello backend of HungDQ19....."));

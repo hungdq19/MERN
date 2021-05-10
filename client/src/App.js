@@ -1,25 +1,30 @@
-import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./Component/layout/Home";
-import Login from "./Component/auth/Login";
+import About from "./Component/views/About";
 import Auth from "./Component/views/Auth";
+import Test from "./Component/views/Test";
+import { AuthContextProvider } from "./Context/AuthContex";
 
 function App() {
   return (
     <>
-      <Router>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route
-            path="/login"
-            render={(props) => <Auth {...props} authRoute="login" />}
-          />
-          <Route
-            path="/register"
-            render={(props) => <Auth {...props} authRoute="register" />}
-          />
-        </Switch>
-      </Router>
+      <AuthContextProvider>
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route
+              path="/login"
+              render={(props) => <Auth {...props} authRoute="login" />}
+            />
+            <Route
+              path="/register"
+              render={(props) => <Auth {...props} authRoute="register" />}
+            />
+            <Route exact path="/About" component={About} />
+            <Route exact path="/test" component={Test} />
+          </Switch>
+        </Router>
+      </AuthContextProvider>
     </>
   );
 }
