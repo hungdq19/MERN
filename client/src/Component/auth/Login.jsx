@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { Link, useHistory } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContex";
-
+import Notify from "../layout/Notify";
 Login.propTypes = {};
 
 function Login(props) {
@@ -13,6 +13,8 @@ function Login(props) {
     username: "",
     password: "",
   });
+  // set up thong bao nguoi dung khi login
+  const [alert, setAlert] = useState(null);
   const { username, password } = form;
   const handleChange = (e) => {
     setForm({
@@ -24,14 +26,19 @@ function Login(props) {
     try {
       e.preventDefault();
       const dataLogin = await loginUser(form);
-      if (dataLogin.success) history.push("/About");
-    } catch (error) {
-      console.log(error);
-    }
+      if (dataLogin.success) {
+        //Successfully .....
+        setAlert({ type: "success", message: "Login thanh cong" });
+      } else {
+        setAlert({ type: "error", message: dataLogin.message });
+        setTimeout(() => setAlert(null), 2000);
+      }
+    } catch (error) {}
   };
   return (
     <>
       <Form className="my-4" onSubmit={handleSubmit}>
+        <Notify info={alert} />
         <Form.Group className="my-4">
           <Form.Control
             type="text"

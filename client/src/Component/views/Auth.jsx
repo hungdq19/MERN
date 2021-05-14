@@ -1,11 +1,9 @@
-import React from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import React, { useContext } from "react";
+import { Redirect } from "react-router-dom";
+import { AuthContext } from "../../Context/AuthContex";
 import Login from "../auth/Login";
 import Register from "../auth/Register";
-import { AuthContext } from "../../Context/AuthContex";
-import { useContext } from "react";
-import { Redirect } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 Auth.propTypes = {};
 
@@ -19,7 +17,7 @@ function Auth(props) {
   if (isLoading)
     contentForm = (
       <div className="d-flex justify-content mt-2">
-        <CircularProgress color="secondary" />
+        <CircularProgress color="primary" />
       </div>
     );
   else if (isAuthenticated) return <Redirect to="/About" />;

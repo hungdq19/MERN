@@ -4,6 +4,7 @@ import About from "./Component/views/About";
 import Auth from "./Component/views/Auth";
 import Test from "./Component/views/Test";
 import { AuthContextProvider } from "./Context/AuthContex";
+import ProtectRoute from "./route/ProtectRoute";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
               path="/register"
               render={(props) => <Auth {...props} authRoute="register" />}
             />
-            <Route exact path="/About" component={About} />
+            <ProtectRoute exact path="/About" component={About} />
             <Route exact path="/test" component={Test} />
           </Switch>
         </Router>

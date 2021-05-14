@@ -28,6 +28,7 @@ export const AuthContextProvider = ({ children }) => {
     } catch (error) {
       localStorage.removeItem("fullstack");
       setAuthentication(null);
+      console.log(error);
       dispatch({
         type: "SET_AUTH",
         payload: { isAuthenticated: false, user: null },
@@ -44,9 +45,14 @@ export const AuthContextProvider = ({ children }) => {
 
       if (res.data.success)
         localStorage.setItem("fullstack", res.data.acessToken);
+      await checkUser();
+
       return res.data;
     } catch (error) {
-      console.log(error);
+      return {
+        success: false,
+        message: error.message,
+      };
     }
   };
   // Context Data
